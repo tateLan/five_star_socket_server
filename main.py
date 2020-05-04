@@ -1,12 +1,12 @@
 import socket
 import sys
 import _thread
+import time
 
 
 clients = []
 
 run = True
-
 
 def client_handler(conn, addr):
     try:
@@ -54,6 +54,7 @@ def main():
     print('server online')
 
     while run:
+        time.sleep(10)
         continue
 
     sys.exit(0)
