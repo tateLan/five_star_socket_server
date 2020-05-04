@@ -13,7 +13,7 @@ def client_handler(conn, addr):
         global run
         while True:
             msg = conn.recv(2048).decode()
-            if msg == '\n' or msg == 'q':
+            if msg == '' or msg == 'q':
                 index = clients.index([x for x in clients if x[1][1] == addr[1]][0])
                 del clients[index]
                 break
@@ -33,7 +33,10 @@ def client_handler(conn, addr):
                             dest_sock.send(msg.encode())
         conn.close()
     except Exception as err:
-        print('bye')
+        print('client disconnected')
+        sys.exit(0)
+        index = clients.index([x for x in clients if x[1][1] == addr[1]][0])
+        del clients[index]
 
 
 def get_connections(sock):
@@ -49,7 +52,7 @@ def main():
 
     sock = socket.socket()
     sock.bind(('localhost', port))
-    sock.listen(2)
+    sock.listen()
     _thread.start_new_thread(get_connections, (sock,))
     print('server online')
 
